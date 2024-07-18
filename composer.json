@@ -1,0 +1,54 @@
+{
+    "name": "jdecool/optional",
+    "description": "A container object which may or may not contain a non-null value inspired by java.util.Optional",
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Jérémy DECOOL",
+            "email": "contact@jdecool.fr"
+        }
+    ],
+    "require": {
+        "php": "^8.1"
+    },
+    "require-dev": {
+        "ergebnis/composer-normalize": "^2.43",
+        "friendsofphp/php-cs-fixer": "^3.59",
+        "phpstan/extension-installer": "^1.4",
+        "phpstan/phpstan": "^1.11",
+        "phpunit/phpunit": "^11.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "JDecool\\DataStructure\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "JDecool\\DataStructure\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "ergebnis/composer-normalize": true,
+            "phpstan/extension-installer": true
+        },
+        "sort-packages": true
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "@composer normalize"
+        ],
+        "post-update-cmd": [
+            "@composer normalize"
+        ],
+        "lint": [
+            "@lint.cs",
+            "@lint.phpstan"
+        ],
+        "lint.cs": "php-cs-fixer fix --diff --verbose",
+        "lint.phpstan": "phpstan analyze",
+        "test": "phpunit"
+    }
+}
