@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace JDecool\DataStructure;
 
+use LogicException;
+
 /**
  * @template T
  * @phpstan-type EmptyOptional Optional<null>
@@ -102,6 +104,23 @@ class Optional
         return self::ofNullable($mapper($this->value));
     }
 
+    /**
+     * @template U
+     * @param U $other
+     * @return self<T>|self<U>
+     */
+    public function or(mixed $other): self
+    {
+        if ($this->isPresent()) {
+            return $this;
+        }
+
+        if ($other === null) {
+            throw new LogicException('Value cannot be null');
+        }
+
+        return self::of($other); // @phpstan-ignore-line
+    }
     public function equals(mixed $object): bool
     {
         if ($this === $object) {

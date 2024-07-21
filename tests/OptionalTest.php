@@ -97,6 +97,15 @@ final class OptionalTest extends TestCase
     }
 
     #[Test]
+    public function orShouldReturnOptionalWhenOptionalHasValue(): void
+    {
+        $optional = Optional::of('foo');
+        $other = Optional::of('bar');
+
+        static::assertSame($optional, $optional->or($other));
+    }
+
+    #[Test]
     public function equalsShouldReturnTrueWhenCompareSameOptionalInstance(): void
     {
         $optional = Optional::of('foo');
