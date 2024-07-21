@@ -121,6 +121,15 @@ class Optional
 
         return self::of($other); // @phpstan-ignore-line
     }
+
+    /**
+     * @param T $other
+     * @return T
+     */
+    public function orElse(mixed $other): mixed
+    {
+        return $this->isEmpty() ? $other : $this->value;
+    }
     public function equals(mixed $object): bool
     {
         if ($this === $object) {
