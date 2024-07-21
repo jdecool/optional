@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace JDecool\DataStructure;
 
 use LogicException;
+use Throwable;
 
 /**
  * @template T
@@ -130,6 +131,19 @@ class Optional
     {
         return $this->isEmpty() ? $other : $this->value;
     }
+
+    /**
+     * @return T
+     */
+    public function orElseThrow(Throwable $exception): mixed
+    {
+        if ($this->isEmpty()) {
+            throw $exception;
+        }
+
+        return $this->value;
+    }
+
     public function equals(mixed $object): bool
     {
         if ($this === $object) {

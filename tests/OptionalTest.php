@@ -2,6 +2,7 @@
 
 namespace JDecool\DataStructure\Tests;
 
+use Exception;
 use JDecool\DataStructure\NoSuchElementException;
 use JDecool\DataStructure\Optional;
 use PHPUnit\Framework\Attributes\Test;
@@ -127,6 +128,25 @@ final class OptionalTest extends TestCase
         $optional = Optional::empty();
 
         static::assertSame('bar', $optional->orElse('bar'));
+    }
+
+    #[Test]
+    public function orElseThrowShouldReturnOptionalValueWhenOptionalHasValue(): void
+    {
+        $optional = Optional::of('foo');
+
+        static::assertSame('foo', $optional->orElseThrow(new \Exception('No value present')));
+    }
+
+    #[Test]
+    public function orElseThrowShouldThrowExceptionWhenOptionalIsEmpty(): void
+    {
+        $optional = Optional::empty();
+
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('No value present');
+
+        $optional->orElseThrow(new Exception('No value present'));
     }
 
     #[Test]
