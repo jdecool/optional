@@ -48,7 +48,9 @@
             "@lint.phpstan"
         ],
         "lint.cs": "php-cs-fixer fix --diff --verbose",
+        "lint.cs@ci": "php-cs-fixer fix --diff --verbose --dry-run",
         "lint.phpstan": "phpstan analyze",
-        "test": "phpunit"
+        "test": "phpunit",
+        "test@ci": "phpunit --testdox --coverage-text"
     }
 }
