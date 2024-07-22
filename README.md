@@ -1,10 +1,146 @@
 Optional
 ========
 
-This is a port of the [`java.util.Optional`](https://docs.oracle.com/javase/8/docs/api/java/util/Optional.html) Java class to PHP.
+A PHP implementation of the Optional pattern, inspired by Java's [`java.util.Optional`](https://docs.oracle.com/javase/8/docs/api/java/util/Optional.html).
 
-A container object which may or may not contain a non-null value. If a value is present, isPresent() will return true and get() will return the value.
+This library provides a container object which may or may not contain a non-null value, helping to avoid null pointer exceptions and improve code readability.
 
-Additional methods that depend on the presence or absence of a contained value are provided, such as orElse() (return a default value if value not present) and ifPresent() (execute a block of code if the value is present).
+## Installation
 
-This is a value-based class;
+### Using Composer (recommended)
+
+You can install this library using Composer. Run the following command in your project directory:
+
+```bash
+composer require jdecool/optional
+```
+
+### Manual Installation
+
+If you're not using Composer, you can download the library files and include them manually in your project. Make sure to set up the appropriate autoloading for the `JDecool\DataStructure` namespace.
+
+## Usage
+
+### Creating an Optional
+
+#### `Optional::of($value)`
+
+Creates an Optional with a non-null value.
+
+```php
+use JDecool\DataStructure\Optional;
+
+$optional = Optional::of('Hello, World!');
+```
+
+#### `Optional::ofNullable($value)`
+
+Creates an Optional that may contain a null value.
+
+```php
+$optional = Optional::ofNullable(null);
+```
+
+#### `Optional::empty()`
+
+Creates an empty Optional.
+
+```php
+$emptyOptional = Optional::empty();
+```
+
+### Checking the Optional's State
+
+#### `isPresent()`
+
+Checks if the Optional contains a non-null value.
+
+```php
+if ($optional->isPresent()) {
+    echo "Value is present";
+}
+```
+
+#### `isEmpty()`
+
+Checks if the Optional is empty (contains null).
+
+```php
+if ($optional->isEmpty()) {
+    echo "Optional is empty";
+}
+```
+
+### Retrieving the Value
+
+#### `get()`
+
+Retrieves the value if present, throws a `NoSuchElementException` if empty.
+
+```php
+try {
+    $value = $optional->get();
+} catch (NoSuchElementException $e) {
+    echo "No value present";
+}
+```
+
+### Transforming and Filtering
+
+#### `filter(callable $predicate)`
+
+Filters the Optional based on a predicate.
+
+```php
+$filtered = $optional->filter(fn($value) => strlen($value) > 5);
+```
+
+#### `map(callable $mapper)`
+
+Transforms the Optional's value using a mapping function.
+
+```php
+$mapped = $optional->map(fn($value) => strtoupper($value));
+```
+
+### Providing Fallback Values
+
+#### `or($other)`
+
+Returns the Optional if it has a value, otherwise returns the provided Optional.
+
+```php
+$result = $optional->or(Optional::of('Default'));
+```
+
+#### `orElse($other)`
+
+Returns the Optional's value if present, otherwise returns the provided value.
+
+```php
+$value = $optional->orElse('Default');
+```
+
+#### `orElseThrow(Throwable $exception)`
+
+Returns the Optional's value if present, otherwise throws the provided exception.
+
+```php
+try {
+    $value = $optional->orElseThrow(new Exception('Value not present'));
+} catch (Exception $e) {
+    echo $e->getMessage();
+}
+```
+
+### Comparing Optionals
+
+#### `equals(mixed $object)`
+
+Compares this Optional to another object for equality.
+
+```php
+$isEqual = $optional->equals(Optional::of('Hello, World!'));
+```
+
+This Optional library provides a robust way to handle potentially null values in your PHP code, reducing the risk of null pointer exceptions and improving overall code quality.

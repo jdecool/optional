@@ -1,6 +1,6 @@
 {
     "name": "jdecool/optional",
-    "description": "A container object which may or may not contain a non-null value inspired by java.util.Optional",
+    "description": "A PHP implementation of the Optional pattern, inspired by Java's java.util.Optional",
     "license": "MIT",
     "type": "library",
     "authors": [
