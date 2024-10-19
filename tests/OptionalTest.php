@@ -182,4 +182,34 @@ final class OptionalTest extends TestCase
 
         static::assertFalse($optional->equals('foo'));
     }
+
+    #[Test]
+    public function ifPresentShouldExecuteCallableIfOptionalContainsValue(): void
+    {
+        $optional = Optional::of('bar');
+
+        $isExecuted = false;
+
+        $optional->ifPresent(function (string $value) use (&$isExecuted) {
+            static::assertSame('bar', $value);
+
+            $isExecuted = true;
+        });
+
+        static::assertTrue($isExecuted);
+    }
+
+    #[Test]
+    public function ifPresentShouldNotExecuteCallableIfOptionalIsNotPresent(): void
+    {
+        $optional = Optional::ofNullable(null);
+
+        $isExecuted = false;
+
+        $optional->ifPresent(function (string $value) use (&$isExecuted) {
+            $isExecuted = true;
+        });
+
+        static::assertFalse($isExecuted);
+    }
 }

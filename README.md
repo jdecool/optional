@@ -51,6 +51,14 @@ $emptyOptional = Optional::empty();
 
 ### Checking the Optional's State
 
+#### `ifPresent(callable $action)`
+
+Performs an action if the Optional contains a non-null value;
+
+```php
+$optional->ifPresent(static fn () => echo "Optional contains a value.");
+```
+
 #### `isPresent()`
 
 Checks if the Optional contains a non-null value.

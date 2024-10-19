@@ -152,4 +152,14 @@ class Optional
 
         return $object instanceof self && $this->value === $object->value;
     }
+
+    /**
+     * @param callable(T): void $action
+     */
+    public function ifPresent(callable $action): void
+    {
+        if ($this->value !== null) {
+            $action($this->value);
+        }
+    }
 }
