@@ -212,4 +212,38 @@ final class OptionalTest extends TestCase
 
         static::assertFalse($isExecuted);
     }
+
+    #[Test]
+    public function ifPresentOrElseShouldExecuteActionCallableIfValueIsPresent(): void
+    {
+        $optional = Optional::of('my value');
+
+        $isActionExecuted = false;
+        $isEmptyActionExecuted = false;
+
+        $optional->ifPresentOrElse(
+            static function () use (&$isActionExecuted) { $isActionExecuted = true; },
+            static function () use (&$isEmptyActionExecuted) { $isEmptyActionExecuted = true; },
+        );
+
+        static::assertTrue($isActionExecuted);
+        static::assertFalse($isEmptyActionExecuted);
+    }
+
+    #[Test]
+    public function ifPresentOrElseShouldExecuteEmptyActionIfValueIsNotPresent(): void
+    {
+        $optional = Optional::empty();
+
+        $isActionExecuted = false;
+        $isEmptyActionExecuted = false;
+
+        $optional->ifPresentOrElse(
+            static function () use (&$isActionExecuted) { $isActionExecuted = true; },
+            static function () use (&$isEmptyActionExecuted) { $isEmptyActionExecuted = true; },
+        );
+
+        static::assertFalse($isActionExecuted);
+        static::assertTrue($isEmptyActionExecuted);
+    }
 }

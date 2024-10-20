@@ -158,8 +158,17 @@ class Optional
      */
     public function ifPresent(callable $action): void
     {
-        if ($this->value !== null) {
+        if ($this->isPresent()) {
             $action($this->value);
+        }
+    }
+
+    public function ifPresentOrElse(callable $action, callable $emptyAction): void
+    {
+        if ($this->isPresent()) {
+            $action($this->value);
+        } else {
+            $emptyAction();
         }
     }
 }
