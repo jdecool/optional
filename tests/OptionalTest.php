@@ -139,6 +139,16 @@ final class OptionalTest extends TestCase
     }
 
     #[Test]
+    public function orElseThrowShouldThrowDefaultExceptionWhenOptionalIsEmptyAndNoExceptionSpecified(): void
+    {
+        $optional = Optional::empty();
+
+        $this->expectException(NoSuchElementException::class);
+
+        $optional->orElseThrow();
+    }
+
+    #[Test]
     public function orElseThrowShouldThrowExceptionWhenOptionalIsEmpty(): void
     {
         $optional = Optional::empty();

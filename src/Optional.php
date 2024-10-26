@@ -135,7 +135,7 @@ class Optional
     /**
      * @return T
      */
-    public function orElseThrow(Throwable $exception): mixed
+    public function orElseThrow(Throwable $exception = new NoSuchElementException()): mixed
     {
         if ($this->isEmpty()) {
             throw $exception;
@@ -163,6 +163,10 @@ class Optional
         }
     }
 
+    /**
+     * @param callable(T): void $action
+     * @param callable(): void  $emptyAction
+     */
     public function ifPresentOrElse(callable $action, callable $emptyAction): void
     {
         if ($this->isPresent()) {
