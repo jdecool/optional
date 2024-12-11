@@ -142,6 +142,14 @@ Returns the Optional's value if present, otherwise returns the provided value.
 $value = $optional->orElse('Default');
 ```
 
+#### `public function orElseGet(callable $supplier)`
+
+Returns the Optional's value if present, otherwise returns the result of the callable.
+
+```php
+$value = $optional->orElseGet(fn() => 'Default');
+```
+
 #### `orElseThrow(Throwable $exception)`
 
 Returns the Optional's value if present, otherwise throws the provided exception.

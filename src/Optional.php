@@ -133,6 +133,16 @@ class Optional
     }
 
     /**
+     * @template U
+     * @param callable(): U $supplier
+     * @return U
+     */
+    public function orElseGet(callable $supplier): mixed
+    {
+        return $this->isEmpty() ? $supplier() : $this->value;
+    }
+
+    /**
      * @return T
      */
     public function orElseThrow(Throwable $exception = new NoSuchElementException()): mixed

@@ -131,6 +131,22 @@ final class OptionalTest extends TestCase
     }
 
     #[Test]
+    public function orElseGetShouldReturnOptionalValueWhenOptionalHasValue(): void
+    {
+        $optional = Optional::of('foo');
+
+        static::assertSame('foo', $optional->orElseGet(fn () => 'bar'));
+    }
+
+    #[Test]
+    public function orElseGetShouldReturnElseValueWhenOptionalIsEmpty(): void
+    {
+        $optional = Optional::empty();
+
+        static::assertSame('bar', $optional->orElseGet(fn () => 'bar'));
+    }
+
+    #[Test]
     public function orElseThrowShouldReturnOptionalValueWhenOptionalHasValue(): void
     {
         $optional = Optional::of('foo');
