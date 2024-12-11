@@ -9,12 +9,11 @@ use Throwable;
 
 /**
  * @template T
- * @phpstan-type EmptyOptional Optional<null>
  */
 class Optional
 {
     /**
-     * @return EmptyOptional
+     * @return self<null>
      */
     public static function empty(): self
     {
@@ -37,9 +36,9 @@ class Optional
     /**
      * @template V
      * @param ?V $value
-     * @return self<V>|Empty
+     * @return (V is null ? self<null> : self<V>)
      */
-    public static function ofNullable(mixed $value): self // @phpstan-ignore-line
+    public static function ofNullable(mixed $value): self
     {
         if ($value === null) {
             return self::empty();
@@ -58,6 +57,7 @@ class Optional
 
     /**
      * @return T
+     * @throws NoSuchElementException
      */
     public function get(): mixed
     {
@@ -80,7 +80,7 @@ class Optional
 
     /**
      * @param callable(T): bool $predicate
-     * @return self<T>|EmptyOptional
+     * @return self<T>|self<null>
      */
     public function filter(callable $predicate): self
     {
@@ -94,7 +94,7 @@ class Optional
     /**
      * @template U
      * @param callable(T): U $mapper
-     * @return self<U>|EmptyOptional
+     * @return (T is null ? self<null> : self<U>)
      */
     public function map(callable $mapper): self
     {
@@ -108,7 +108,8 @@ class Optional
     /**
      * @template U
      * @param U $other
-     * @return self<T>|self<U>
+     * @return (T is null ? self<U> : self<T>)
+     * @throws LogicException
      */
     public function or(mixed $other): self
     {
@@ -124,8 +125,9 @@ class Optional
     }
 
     /**
-     * @param T $other
-     * @return T
+     * @template U
+     * @param U $other
+     * @return (T is null ? U : T)
      */
     public function orElse(mixed $other): mixed
     {
@@ -135,7 +137,7 @@ class Optional
     /**
      * @template U
      * @param callable(): U $supplier
-     * @return U
+     * @return (T is null ? U : T)
      */
     public function orElseGet(callable $supplier): mixed
     {
@@ -143,7 +145,10 @@ class Optional
     }
 
     /**
+     * @template TException of Throwable
+     * @param TException $exception
      * @return T
+     * @throw TException
      */
     public function orElseThrow(Throwable $exception = new NoSuchElementException()): mixed
     {
