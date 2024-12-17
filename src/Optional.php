@@ -107,21 +107,17 @@ class Optional
 
     /**
      * @template U
-     * @param U $other
+     * @param callable(): U $other
      * @return (T is null ? self<U> : self<T>)
      * @throws LogicException
      */
-    public function or(mixed $other): self
+    public function or(callable $other): self
     {
         if ($this->isPresent()) {
             return $this;
         }
 
-        if ($other === null) {
-            throw new LogicException('Value cannot be null');
-        }
-
-        return self::of($other); // @phpstan-ignore-line
+        return self::ofNullable($other()); // @phpstan-ignore-line
     }
 
     /**
