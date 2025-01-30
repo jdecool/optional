@@ -51,6 +51,6 @@
         "lint.cs@ci": "PHP_CS_FIXER_IGNORE_ENV=1 php-cs-fixer fix --diff --verbose --dry-run",
         "lint.phpstan": "phpstan analyze",
         "test": "phpunit",
-        "test@ci": "phpunit --testdox --coverage-text"
+        "test@ci": "phpunit --testdox --coverage-text --coverage-clover coverage.xml"
     }
 }
